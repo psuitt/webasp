@@ -1,14 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Avent.master" AutoEventWireup="true"
     CodeFile="Index.aspx.cs" Inherits="Resources_Pages_Index" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="../Styles/Site.css" rel="stylesheet" type="text/css" />
     <link href="../Styles/gumby.css" rel="stylesheet" type="text/css" />
     <link href="../Styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../Styles/fullcalendar.css" rel="stylesheet" type="text/css" />
     <link href="../Styles/fullcalendar.print.css" rel="stylesheet" type="text/css" media="print" />
 
-    
     <script src="../Scripts/jquery-1.10.1.min.js" type="text/javascript" ></script>
     <script src="../Scripts/libs/modernizr-2.6.2.min.js" type="text/javascript" ></script>
     <script src="../Scripts/libs/fullcalendar.js" type="text/javascript" ></script>
@@ -20,7 +19,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row">
         <div class="two columns push_ten">
-            <a href="~/Account/Login.aspx" id="HeadLoginStatus" runat="server">Sign In</a>
+            <a href="~/Account/Login.aspx" id="HeadLoginStatus" class="signIn" runat="server">Sign In</a>
+            <div id="signInDiv">
+                <label>Email:</label><input type="text"/>
+                <label>Password:</label><input type="password"/>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -51,4 +54,34 @@
             </div>
         </div>
     </div>
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
+    //Document ready
+	$(document).ready(function() {
+		$("#sidebar-nav li a").on("click", function() {
+			var jThis = $(this);
+			$("#sidebar-nav li").removeClass("selected");
+			jThis.parent().addClass("selected");
+				
+			$.ajax({
+					type: "GET",
+					url: "home/" + jThis.html().toLowerCase() + ".",
+				}).done(function( data ) {
+					$("#view").html(data);
+				});
+				
+				
+			    // Prevent the anchor link.
+			    return false;
+		});
+        $("#HeadLoginStatus.signIn").on("click", function() {
+
+        });
+		//$("#search").autocomplete();
+	});
+		
+	var selectMenuItemColor = function() {
+		$("#sidebar-nav ul li a").removeClass("selected");
+	};
 </asp:Content>

@@ -17,6 +17,23 @@ input.text.input.smalltext {
  * Main Index
  ***************************************************************************/
 
+/*
+ * Sign In Div
+ ***************************************************************************/
+#signInDiv {
+    display:none;
+    position:absolute;
+    z-index:10;
+    width:300px;
+    height:200px;
+    background-color:#EEE;
+    
+    -webkit-border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    border-radius: 4px 4px 4px 4px;
+}
 
 /*
  * Menu
@@ -34,7 +51,7 @@ input.text.input.smalltext {
 	color:white;
 }
 
-/***************************************************************************
+/**
  * View: Calendar
  ***************************************************************************/
 

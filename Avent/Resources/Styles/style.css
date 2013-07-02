@@ -1,0 +1,43 @@
+/*
+We highly recommend you use SASS and write your custom styles in sass/_custom.scss.
+However, this blank file is available if you prefer
+*/
+
+.va-m {
+	vertical-align:middle !important;	
+}
+
+input.text.input.smalltext {
+	height:23px; 
+	margin:0;
+	line-height:16px;
+}
+
+/***************************************************************************
+ * Main Index
+ ***************************************************************************/
+
+
+/*
+ * Menu
+ ***************************************************************************/
+#sidebar-nav li a {
+	padding-left:10px;
+	cursor:pointer;
+}
+
+#sidebar-nav li.selected {
+	background:#3085d6;
+}
+
+#sidebar-nav li.selected a {
+	color:white;
+}
+
+/***************************************************************************
+ * View: Calendar
+ ***************************************************************************/
+
+#calendar span.fc-header-title h2 {
+	font-size:18px;
+}

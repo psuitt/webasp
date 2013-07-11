@@ -14,6 +14,10 @@
     <script src="../Scripts/libs/gumby.min.js" type="text/javascript" ></script>
     <script src="../Scripts/plugins.js" type="text/javascript" ></script>
     <script src="../Scripts/main.js" type="text/javascript" ></script>
+
+    <!-- Google Maps Api -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -41,15 +45,6 @@
             </ul>
         </div>
         <div class="ten columns">
-            <div class="valign row">
-                <ul class="six columns">
-                    <li class="append field">
-                        <input id="search" class="text input smalltext va-m" type="text" />
-                        <div class="small primary btn va-m">
-                            <a href="#">Search</a></div>
-                    </li>
-                </ul>
-            </div>
             <div id="view" class="valign row">
             </div>
         </div>
@@ -63,12 +58,28 @@
 			var jThis = $(this);
 			$("#sidebar-nav li").removeClass("selected");
 			jThis.parent().addClass("selected");
-				
+			
+            var url = false;
+
+            switch (jThis.html()) {
+                case "Search":
+                    url = "View/Search.htm";
+                    break;
+                case "Create":
+                    url = "View/Create.htm";
+                    break;
+
+            }
+
+            if (!url)
+                return;
+
 			$.ajax({
 					type: "GET",
-					url: "home/" + jThis.html().toLowerCase() + ".",
+					url: url,
 				}).done(function( data ) {
 					$("#view").html(data);
+                    initializeView();
 				});
 				
 				
@@ -84,4 +95,58 @@
 	var selectMenuItemColor = function() {
 		$("#sidebar-nav ul li a").removeClass("selected");
 	};
+
+    /**
+    var map;
+
+    function initialize() {
+      var mapOptions = {
+        zoom: 1,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      map = new google.maps.Map(document.getElementById('map-canvas'),
+          mapOptions);
+
+      // Try HTML5 geolocation
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = new google.maps.LatLng(position.coords.latitude,
+                                           position.coords.longitude);
+
+          var infowindow = new google.maps.InfoWindow({
+            map: map,
+            position: pos,
+            content: 'Location found using HTML5.'
+          });
+
+          map.setCenter(pos);
+        }, function() {
+          handleNoGeolocation(true);
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        handleNoGeolocation(false);
+      }
+    }
+
+    function handleNoGeolocation(errorFlag) {
+      if (errorFlag) {
+        var content = 'Error: The Geolocation service failed.';
+      } else {
+        var content = 'Error: Your browser doesn\'t support geolocation.';
+      }
+
+      var options = {
+        map: map,
+        position: new google.maps.LatLng(60, 105),
+        content: content
+      };
+
+      var infowindow = new google.maps.InfoWindow(options);
+      map.setCenter(options.position);
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+    */
+
 </asp:Content>

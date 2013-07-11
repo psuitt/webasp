@@ -1,16 +1,63 @@
-/*
-We highly recommend you use SASS and write your custom styles in sass/_custom.scss.
-However, this blank file is available if you prefer
-*/
+/***************************************************************************
+ * Global Styles
+ ***************************************************************************/
 
-.va-m {
-	vertical-align:middle !important;	
+h4.view-title
+{
+    border-bottom: 2px solid #3085d6;
 }
 
-input.text.input.smalltext {
-	height:23px; 
-	margin:0;
-	line-height:16px;
+.columns.ml-0
+{
+    margin-left: 0;
+}
+
+.mt-15
+{
+    margin-top: 15px;
+}
+
+.mr-3
+{
+    margin-right: 3px;
+}
+
+.ta-c
+{
+    text-align: center !important;
+}
+
+.ta-r
+{
+    text-align: right !important;
+}
+
+.va-m
+{
+    vertical-align: middle !important;
+}
+
+input.text.input.smalltext
+{
+    height: 27px;
+    margin: 0;
+    line-height: 21px;
+}
+
+div.picker
+{
+    height:27px;
+    margin-left:-4px;
+    font-size:20px;
+    vertical-align:middle;
+}
+
+div.picker select
+{
+    height:27px;
+    font-size:14px;
+    padding-top:0;
+    padding-bottom:0;
 }
 
 /***************************************************************************
@@ -20,14 +67,14 @@ input.text.input.smalltext {
 /*
  * Sign In Div
  ***************************************************************************/
-#signInDiv {
-    display:none;
-    position:absolute;
-    z-index:10;
-    width:300px;
-    height:200px;
-    background-color:#EEE;
-    
+#signInDiv
+{
+    display: none;
+    position: absolute;
+    z-index: 10;
+    width: 300px;
+    height: 200px;
+    background-color: #EEE;
     -webkit-border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px 4px 4px 4px;
     -ms-border-radius: 4px 4px 4px 4px;
@@ -38,23 +85,63 @@ input.text.input.smalltext {
 /*
  * Menu
  ***************************************************************************/
-#sidebar-nav li a {
-	padding-left:10px;
-	cursor:pointer;
+#sidebar-nav li a
+{
+    padding-left: 10px;
+    cursor: pointer;
 }
 
-#sidebar-nav li.selected {
-	background:#3085d6;
+#sidebar-nav li.selected
+{
+    background: #3085d6;
 }
 
-#sidebar-nav li.selected a {
-	color:white;
+#sidebar-nav li.selected a
+{
+    color: white;
 }
+
+/**
+ * View: Create
+ ***************************************************************************/
+
+#CreateEventForm ul li
+{
+    min-height: 27px;
+    padding-bottom: 0;
+}
+
+#CreateEventForm ul li label
+{
+    min-width: 70px;
+}
+
+#CreateEventForm ul li.append
+{
+    font-size: 16px;
+}
+
+#description,
+Label[for='recurrenceCheckbox'] 
+{
+    margin-left:70px; /* The width of the label */
+}
+
+#place-map
+{
+    width: 450px;
+    height: 250px;
+    margin-top: 5px;
+    margin-left: 70px;
+}
+
+
 
 /**
  * View: Calendar
  ***************************************************************************/
 
-#calendar span.fc-header-title h2 {
-	font-size:18px;
+#calendar span.fc-header-title h2
+{
+    font-size: 18px;
 }

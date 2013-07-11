@@ -1,0 +1,177 @@
+﻿<form id="CreateEventForm" runat="server">
+    <div class="row eleven columns field">
+        <h4 class="view-title" >Create Event</h4>
+    </div>
+    <div class="row eleven columns ta-c field ml-0">
+        <div class="small oval btn secondary"><a href="#">Public</a></div>
+        <div class="small oval btn secondary"><a href="#">Friends</a></div>
+        <div class="small oval btn secondary"><a href="#">Personal</a></div>
+    </div>
+    <div class="row eleven columns ml-0 mt-5">
+        <ul class="eight columns ml-0">
+            <li class="field all"><label class="inline" for="tags">Type</label>
+                <div class="picker">
+                    <select>
+                        <option>*Simple</option>
+                        <option>Birthday</option>
+                        <option>Happy Hour</option>
+                    </select>
+                  </div>
+            </li>
+            <li class="field all"><label class="inline" for="tags">Tags</label><input id="tags" class="text input smalltext wide" type="text" placeholder="Tags" /></li>
+            <li class="field all"><label class="inline" for="title">Title</label><input id="title" class="text input smalltext wide" type="text" placeholder="Event Title" /></li>
+            <li class="field all"><label class="inline" for="time">Time</label><input id="time" class="text input narrow smalltext" type="text" placeholder="Time" /></li>
+
+            <li class="field recurrence"><label class="checkbox" for="recurrenceCheckbox"><input name="checkbox[]" id="recurrenceCheckbox" type="checkbox" value="1" /><span></span> Multiple Occurrences</label></li>
+            
+            <li class="field all"><label class="inline" for="place">Place</label><input id="place"class="text input smalltext wide" type="text" placeholder="Place" />
+                 <div id="place-map"></div>
+            </li>
+            <li class="field append all"><label class="inline" for="invites">Invites</label><input id="invites" class="text input smalltext va-m" type="text" placeholder="(Optional)" /><div class="small primary btn va-m"><a href="#">add</a></div></li>
+            <li class="field all"><label for="description">Description</label><textarea id="description" class="input textarea" placeholder="(Optional)" rows="4"></textarea></li>
+            
+        </ul>
+        <div class="two push_one columns">
+            <img border="0" src="" alt="Image Place Holder" width="100" height="100">
+        </div>
+    </div>
+    <div class="row eleven columns ta-c ml-0 mt-15">
+        <div class="small oval btn primary"><a href="#">Create!</a></div>
+    </div>
+</form>
+
+<Script>
+
+    function addPageListeners() {
+
+        $('#recurrenceCheckbox').on('gumby.onCheck', function () {
+            console.log('Checkbox checked');
+        }).on('gumby.onUncheck', function () {
+            console.log('Checkbox unchecked');
+        }).on('gumby.onChange', function () {
+            console.log("Checkbox updated");
+        });
+        Gumby.initialize('checkboxes');
+
+    }
+
+    function hideUnusedFields() {
+        $("li.field").each(function () {
+            $(this).toggle($(this).hasClass("all"));
+        });
+
+    }
+
+    function initializeView() {
+
+        addPageListeners();
+        hideUnusedFields();
+
+        var mapOptions = {
+            center: new google.maps.LatLng(0, 0),
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById('place-map'), mapOptions);
+
+        var input = /** @type {HTMLInputElement} */(document.getElementById('place'));
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+            map: map
+        });
+
+        // Try HTML5 geolocation
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = new google.maps.LatLng(position.coords.latitude,
+                                           position.coords.longitude);
+                map.setCenter(pos);
+            }, function () {
+                handleNoGeolocation(true);
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleNoGeolocation(false);
+        }
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            infowindow.close();
+            marker.setVisible(false);
+            input.className = 'text input smalltext wide';
+            input.parentNode.className = 'field';
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                // Inform the user that the place was not found and return.
+                //input.className = 'text input smalltext wide notfound';
+                input.className = 'text input smalltext wide notfound';
+                input.parentNode.className = 'field warning';
+                return;
+            }
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);  // Why 17? Because it looks good.
+            }
+            marker.setIcon(/** @type {google.maps.Icon} */({
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(35, 35)
+            }));
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [
+                            (place.address_components[0] && place.address_components[0].short_name || ''),
+                            (place.address_components[1] && place.address_components[1].short_name || ''),
+                            (place.address_components[2] && place.address_components[2].short_name || '')
+                          ].join(' ');
+            }
+
+            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+            infowindow.open(map, marker);
+        });
+
+        function handleNoGeolocation(errorFlag) {
+            if (errorFlag) {
+                var content = 'Error: The Geolocation service failed.';
+            } else {
+                var content = 'Error: Your browser doesn\'t support geolocation.';
+            }
+
+            var options = {
+                map: map,
+                position: new google.maps.LatLng(60, 105),
+                content: content
+            };
+
+            var infowindow = new google.maps.InfoWindow(options);
+            map.setCenter(options.position);
+        }
+
+        // Sets a listener on a radio button to change the filter type on Places
+        // Autocomplete.
+        /*
+        function setupClickListener(id, types) {
+            var radioButton = document.getElementById(id);
+            google.maps.event.addDomListener(radioButton, 'click', function () {
+                autocomplete.setTypes(types);
+            });
+        }
+
+        setupClickListener('changetype-all', []);
+        setupClickListener('changetype-establishment', ['establishment']);
+        setupClickListener('changetype-geocode', ['geocode']);
+        */
+    }
+</Script>

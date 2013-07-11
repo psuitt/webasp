@@ -1589,7 +1589,7 @@ form fieldset legend { padding: 5px 10px; }
 .btn.medium.icon-right a, .skiplink.medium.icon-right a { padding-right: 36px; }
 .btn.medium.icon-right a:after, .skiplink.medium.icon-right a:after { right: 10.66667px; }
 .btn.medium a, .skiplink.medium a { padding: 0 18px; }
-.btn.small, .skiplink.small { font-size: 10px; font-size: 0.625rem; height: 23px; line-height: 21px; }
+.btn.small, .skiplink.small { font-size: 10px; font-size: 0.825rem; height: 27px; line-height: 25px; }
 .btn.small a, .skiplink.small a { position: relative; padding: 0 10px; }
 .btn.small.icon-left a, .skiplink.small.icon-left a { padding-left: 23px; }
 .btn.small.icon-left a:before, .skiplink.small.icon-left a:before { left: 6.66667px; }
